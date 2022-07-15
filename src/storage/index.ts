@@ -4,11 +4,8 @@ import { initUserModel } from "./users.table";
 
 let sequelize: Sequelize | null = null;
 
-
 export const initSequelize = async (): Promise<Sequelize> => {
   if (sequelize !== null) return sequelize;
-
-  console.log(storageSettings.username)
 
   sequelize = new Sequelize({
     database: storageSettings.database,
@@ -27,7 +24,7 @@ export const initSequelize = async (): Promise<Sequelize> => {
     },
   });
 
-  initUserModel(sequelize)
+  initUserModel(sequelize);
   // Create new tables
   await sequelize.sync();
 

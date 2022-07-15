@@ -3,15 +3,15 @@ import { Model } from "sequelize";
 export default class User extends Model {
   public gcuid!: string;
 
-  public username!: string;
+  public username?: string;
 
-  public password!: string;
+  public first_name?: string;
 
-  public first_name!: string;
+  public last_name?: string;
 
-  public last_name!: string;
+  public email_address?: string;
 
-  public email_address!: string;
+  public password?: string;
 
   public phone_number?: number;
 

@@ -1,9 +1,10 @@
 import { AzureFunction, Context, HttpRequest } from "@azure/functions";
 import * as uuid from "uuid";
+import { isEmpty } from "lodash";
 import * as bcrypt from "bcrypt";
-import User from "../src/models/user.model";
+import { User } from "../src/models";
 import { initSequelize } from "../src/storage";
-import { func500Error, funcValidationError } from "../src/utils";
+import { func500Error, funcSuccess, funcValidationError } from "../src/utils";
 
 const httpTrigger: AzureFunction = async (
   context: Context,
@@ -11,37 +12,38 @@ const httpTrigger: AzureFunction = async (
 ): Promise<void> => {
   try {
     await initSequelize();
-    if (req.method === "GET") await get(context, req);
-    else if (req.method === "POST") await create(context, req);
+
+    if (req.method === "POST") await create(context, req);
   } catch (err) {
-    console.log("err", err);
     func500Error(context);
   }
 };
 
-const get = async (context: Context, req: HttpRequest) => {
-  console.log("get function call");
-  return null;
-};
+const create = async (context: Context, req: HttpRequest): Promise<any> => {
+  const { firstName, lastName, email, password,phoneNumber } = req.body;
 
-const create = async (context: Context, req: HttpRequest) => {
-  const { firstName, lastName, email, password, phoneNumber } = req.body;
-  // if(!req.body.emailAddress) return funcValidationError(context, 'email address not set')
-  console.log("post execute");
+  if (isEmpty(firstName))
+    return funcValidationError(context, "required fills are invalid");
+  if (isEmpty(lastName))
+    return funcValidationError(context, "required fills are invalid");
+  if (isEmpty(email))
+    return funcValidationError(context, "required fills are invalid");
+  if (isEmpty(password))
+    return funcValidationError(context, "required fills are invalid");
+
   let saltRounds = 10;
   const hashedPassword = await bcrypt.hash(password, saltRounds);
-
   const user = await User.create({
-    id: uuid.v4(),
-    username: `${firstName} ${lastName}`,
-    first_name: firstName,
-    last_name: lastName,
-    email_address: email,
+    gcuid: uuid.v4(),
+    username: email.tolowerCase(),
+    first_name: firstName.tolowerCase(),
+    last_name: lastName.tolowerCase(),
+    email_address: email.tolowerCase(),
     phone_number: phoneNumber,
     password: hashedPassword,
   });
-  console.log("user", user);
-  return null;
+  // return null;
+  return funcSuccess(context, { user: user.toJSON() });
 };
 
 export default httpTrigger;
