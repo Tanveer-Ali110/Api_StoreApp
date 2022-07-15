@@ -13,7 +13,6 @@ export const initUserModel = (sequelize: Sequelize) => {
       confirmPassword: defaulTypes.string(false),
     },
     {
-    //   modelName: "UserModel",
       tableName: "Users",
       sequelize,
       timestamps: true,
