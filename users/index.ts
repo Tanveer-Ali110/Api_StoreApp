@@ -2,8 +2,8 @@ import { AzureFunction, Context, HttpRequest } from "@azure/functions";
 import * as uuid from "uuid";
 import { isEmpty } from "lodash";
 import * as bcrypt from "bcrypt";
-import { User } from "../src/models";
-import { initSequelize } from "../src/storage";
+import { User } from "../storage/models";
+import { initSequelize } from "../storage/tables";
 import { func500Error, funcSuccess, funcValidationError } from "../src/utils";
 
 const httpTrigger: AzureFunction = async (

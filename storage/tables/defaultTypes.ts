@@ -1,4 +1,4 @@
-import { ModelAttributeColumnOptions, INTEGER, STRING, BOOLEAN, TEXT } from 'sequelize'
+import { ModelAttributeColumnOptions, INTEGER, STRING, BOOLEAN, TEXT,ENUM } from 'sequelize'
 
 export const string = (allowNull = false, attributes?: Partial<ModelAttributeColumnOptions<any>>) => {
   return {
@@ -37,6 +37,14 @@ export const bool = (allowNull = false, attributes?: Partial<ModelAttributeColum
   return {
     allowNull,
     type: BOOLEAN,
+    ...attributes,
+  }
+}
+export const enums = (allowNull = false, values:string[],attributes?: Partial<ModelAttributeColumnOptions<any>>) => {
+  return {
+    allowNull,
+    type: ENUM,
+    value:values,
     ...attributes,
   }
 }

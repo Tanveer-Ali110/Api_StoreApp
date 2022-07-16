@@ -1,5 +1,6 @@
 import { Sequelize } from "sequelize";
-import { storageSettings } from "../constant";
+import { storageSettings } from "../../src/constant";
+import { initDiscriptionModel } from "./discription.table";
 import { initUserModel } from "./users.table";
 
 let sequelize: Sequelize | null = null;
@@ -25,6 +26,8 @@ export const initSequelize = async (): Promise<Sequelize> => {
   });
 
   initUserModel(sequelize);
+  initDiscriptionModel(sequelize);
+
   // Create new tables
   await sequelize.sync();
 

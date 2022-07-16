@@ -1,5 +1,5 @@
 import * as jwt from "jsonwebtoken";
-import User from "../models/user.model";
+import User from "../../storage/models/user.model";
 import { authSettings } from "../constant";
 
 export async function createUserAccessToken(user: User) {

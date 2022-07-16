@@ -1,7 +1,7 @@
 import { AzureFunction, Context, HttpRequest } from "@azure/functions";
 import * as bcrypt from "bcrypt";
-import User from "../src/models/user.model";
-import { initSequelize } from "../src/storage";
+import User from "../storage/models/user.model";
+import { initSequelize } from "../storage/tables";
 import { func500Error, funcSuccess, funcValidationError } from "../src/utils";
 import { createUserAccessToken } from "../src/utils/authenticate";
 
