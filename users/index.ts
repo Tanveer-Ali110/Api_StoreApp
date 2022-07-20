@@ -20,13 +20,13 @@ const httpTrigger: AzureFunction = async (
 };
 
 const create = async (context: Context, req: HttpRequest): Promise<any> => {
-  const { firstName, lastName, email, password, phoneNumber } = req.body;
+  const { firstName, lastName, emailAddress, password, cellNo } = req.body;
 
   if (isEmpty(firstName))
     return funcValidationError(context, "required fills are invalid");
   if (isEmpty(lastName))
     return funcValidationError(context, "required fills are invalid");
-  if (isEmpty(email))
+  if (isEmpty(emailAddress))
     return funcValidationError(context, "required fills are invalid");
   if (isEmpty(password))
     return funcValidationError(context, "required fills are invalid");
@@ -36,17 +36,16 @@ const create = async (context: Context, req: HttpRequest): Promise<any> => {
   try {
     const user = await User.create({
       gcuid: uuid.v4(),
-      username: email,
+      username: emailAddress,
       first_name: firstName.toLowerCase(),
       last_name: lastName.toLowerCase(),
-      email_address: email,
-      phone_number: phoneNumber,
+      email_address: emailAddress,
+      phone_number: cellNo,
       password: hashedPassword,
     });
     return funcSuccess(context, { user: user.toJSON() });
   } catch (err) {
-    return funcValidationError(context, err);
-    
+    return funcValidationError(context, err); 
   }
 };
 
