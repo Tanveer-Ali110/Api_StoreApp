@@ -3,15 +3,15 @@ import { Model } from "sequelize";
 export default class User extends Model {
   public gcuid!: string;
 
-  public username?: string;
+  public username!: string;
 
-  public first_name?: string;
+  public first_name!: string;
 
-  public last_name?: string;
+  public last_name!: string;
 
-  public email_address?: string;
+  public email_address!: string;
 
-  public password?: string;
+  public password!: string;
 
   public phone_number?: number;
 
@@ -39,5 +39,5 @@ export default class User extends Model {
 
   public contracts_count?: number;
 
-  // public user_type:enum
+  public user_type?:number
 }

@@ -20,7 +20,7 @@ const httpTrigger: AzureFunction = async (
 };
 
 const create = async (context: Context, req: HttpRequest): Promise<any> => {
-  const { firstName, lastName, email, password,phoneNumber } = req.body;
+  const { firstName, lastName, email, password, phoneNumber } = req.body;
 
   if (isEmpty(firstName))
     return funcValidationError(context, "required fills are invalid");
@@ -33,17 +33,21 @@ const create = async (context: Context, req: HttpRequest): Promise<any> => {
 
   let saltRounds = 10;
   const hashedPassword = await bcrypt.hash(password, saltRounds);
-  const user = await User.create({
-    gcuid: uuid.v4(),
-    username: email.tolowerCase(),
-    first_name: firstName.tolowerCase(),
-    last_name: lastName.tolowerCase(),
-    email_address: email.tolowerCase(),
-    phone_number: phoneNumber,
-    password: hashedPassword,
-  });
-  // return null;
-  return funcSuccess(context, { user: user.toJSON() });
+  try {
+    const user = await User.create({
+      gcuid: uuid.v4(),
+      username: email,
+      first_name: firstName.toLowerCase(),
+      last_name: lastName.toLowerCase(),
+      email_address: email,
+      phone_number: phoneNumber,
+      password: hashedPassword,
+    });
+    return funcSuccess(context, { user: user.toJSON() });
+  } catch (err) {
+    return funcValidationError(context, err);
+    
+  }
 };
 
 export default httpTrigger;
