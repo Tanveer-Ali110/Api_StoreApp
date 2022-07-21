@@ -19,10 +19,10 @@ const httpTrigger: AzureFunction = async function (
 };
 
 const createAccessToken = async (context: Context, req: HttpRequest) => {
-  const { username, password } = req.body;
+  const { emailAddress, password } = req.body;
 
   const user: any = await User.findOne({
-    where: { username: username?.toLowerCase()},
+    where: { username: emailAddress?.toLowerCase() },
   });
   if (!user || !(user instanceof User))
     return funcValidationError(context, "invalid username or password");
@@ -32,6 +32,7 @@ const createAccessToken = async (context: Context, req: HttpRequest) => {
     return funcValidationError(context, "invalid username or password");
 
   const accessToken = await createUserAccessToken(user);
+
   return funcSuccess(context, { user: user.toJSON(), accessToken });
 };
 

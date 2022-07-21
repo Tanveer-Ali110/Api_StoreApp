@@ -9,7 +9,7 @@ export async function createUserAccessToken(user: User) {
         {
           payload: {
             id: user.gcuid,
-            username: user.first_name?.toLowerCase(),
+            username: user.username?.toLowerCase(),
           },
         },
         authSettings.secret,
