@@ -1,7 +1,7 @@
 import { Model } from "sequelize";
 
 export default class Discription extends Model {
-  public id!: number;
+  public id!: string;
 
   public description_pre!: string;
 

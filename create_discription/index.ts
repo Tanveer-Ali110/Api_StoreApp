@@ -1,5 +1,6 @@
 import { AzureFunction, Context, HttpRequest } from "@azure/functions";
 import { isEmpty } from "lodash";
+import * as uuid from "uuid";
 import { Discription } from "../storage/models";
 import { initSequelize } from "../storage/tables";
 import { func500Error, funcSuccess, funcValidationError } from "../src/utils";
@@ -22,23 +23,33 @@ const create = async (context: Context, req: HttpRequest) => {
 
   if (isEmpty(subject))
     return funcValidationError(context, "required fills are invalid");
-
   if (isEmpty(verb))
     return funcValidationError(context, "required fills are invalid");
-
   if (isEmpty(firstLine))
     return funcValidationError(context, "required fills are invalid");
-
   if (isEmpty(secondLine))
     return funcValidationError(context, "required fills are invalid");
 
-  const discription = await Discription.create({
-    description_pre: subject,
-    description_verb: verb,
-    description_first_line: firstLine,
-    description_second_line: secondLine,
+  const result = await Discription.create({
+    id: uuid.v4(),
+    pre: subject.toLowerCase(),
+    verb: verb.toLowerCase(),
+    first_line: firstLine.toLowerCase(),
+    second_line: secondLine.toLowerCase(),
   });
-  return funcSuccess(context, { discription: discription.toJSON() });
+  const discription = toString(result);
+  console.log("discription", discription);
+  return funcSuccess(context, { discription: discription });
 };
 
+const toString = (object: any) => {
+  let data: any = {};
+  let temp = object.dataValues;
+  const abc = [temp.pre, temp.verb, temp.first_line, temp.second_line];
+  let discription = abc.join(" ");
+  data.id = temp.id;
+  data.discription = discription;
+
+  return data;
+};
 export default httpTrigger;

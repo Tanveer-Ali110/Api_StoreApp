@@ -5,17 +5,17 @@ import { Discription } from "../models";
 export const initDiscriptionModel = (sequelize: Sequelize) => {
   Discription.init(
     {
-      id: defaulTypes.uint(false, { primaryKey: true }),
-      description_pre: defaulTypes.string(false, {
+      id: defaulTypes.string(false, { primaryKey: true }),
+      pre: defaulTypes.string(false, {
         validate: { isLowercase: true },
       }),
-      description_verb: defaulTypes.string(false, {
+      verb: defaulTypes.string(false, {
         validate: { isLowercase: true },
       }),
-      description_first_line: defaulTypes.string(false, {
+      first_line: defaulTypes.string(false, {
         validate: { isLowercase: true },
       }),
-      description_second_line: defaulTypes.string(false, {
+      second_line: defaulTypes.string(false, {
         validate: { isLowercase: true },
       }),
     },
