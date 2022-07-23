@@ -12,10 +12,21 @@ const httpTrigger: AzureFunction = async function (
   try {
     await initSequelize();
 
-    if (req.method === "POST") await create(context, req);
+    if (req.method === "GET") await get(context, req);
+    else if (req.method === "POST") await create(context, req);
   } catch (err) {
     func500Error(context);
   }
+};
+
+const get = async (context: Context, req: HttpRequest) => {
+
+  const result = await Discription.findAll();
+  console.log(result);
+
+  return funcSuccess(context, {
+    discription: result.map((data) => data.toJSON()),
+  });
 };
 
 const create = async (context: Context, req: HttpRequest) => {
@@ -37,19 +48,8 @@ const create = async (context: Context, req: HttpRequest) => {
     first_line: firstLine.toLowerCase(),
     second_line: secondLine.toLowerCase(),
   });
-  const discription = toString(result);
-  console.log("discription", discription);
-  return funcSuccess(context, { discription: discription });
+
+  return funcSuccess(context, { discription: result.toJSON() });
 };
 
-const toString = (object: any) => {
-  let data: any = {};
-  let temp = object.dataValues;
-  const abc = [temp.pre, temp.verb, temp.first_line, temp.second_line];
-  let discription = abc.join(" ");
-  data.id = temp.id;
-  data.discription = discription;
-
-  return data;
-};
 export default httpTrigger;
