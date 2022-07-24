@@ -6,7 +6,7 @@ export const initUserModel = (sequelize: Sequelize) => {
   User.init(
     {
       gcuid: defaulTypes.string(false, { primaryKey: true }),
-      username: defaulTypes.string(false),
+      username: defaulTypes.string(false, {unique:true}),
       first_name: defaulTypes.string(false, {
         validate: { isLowercase: true },
       }),
