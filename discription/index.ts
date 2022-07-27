@@ -33,35 +33,21 @@ const create = async (context: Context, req: HttpRequest) => {
   if (context?.bindingData?.action === "search") {
     console.log("abc", context?.bindingData?.action, req.body.input);
     const result = await Discription.findAll({
-      where: {
-        [Op.or]: [
-          {
-            pre: { [Op.like]: "%" + req.body.input + "%" },
-          },
-          {
-            verb: { [Op.like]: `%${req.body.input}%` },
-          },
-          {
-            first_line: { [Op.like]: `%${req.body.input}%` },
-          },
-          {
-            second_line: { [Op.like]: `%${req.body.input}%` },
-          },
-          Sequelize.where(
-            Sequelize.fn(
-              "concat",
-              Sequelize.col("pre"),
-              Sequelize.col("verb"),
-              Sequelize.col("first_line"),
-              " ",
-              Sequelize.col("second_line")
-            ),
-            {
-              [Op.like]: `%${req.body.input}%`,
-            }
-          ),
-        ],
-      },
+      where: Sequelize.where(
+        Sequelize.fn(
+          "concat",
+          Sequelize.col("pre"),
+          " ",
+          Sequelize.col("verb"),
+          " ",
+          Sequelize.col("first_line"),
+          " ",
+          Sequelize.col("second_line")
+        ),
+        {
+          [Op.like]: `%${req.body.input}%`,
+        }
+      ),
       order: [["createdAt", "DESC"]],
     });
     return funcSuccess(context, {
