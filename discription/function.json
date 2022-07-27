@@ -9,7 +9,7 @@
         "get",
         "post"
       ],
-      "route":"discription"
+      "route":"discription/{action?}"
     },
     {
       "type": "http",
