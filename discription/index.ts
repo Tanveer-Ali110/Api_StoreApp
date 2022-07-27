@@ -23,7 +23,6 @@ const httpTrigger: AzureFunction = async function (
 
 const get = async (context: Context, req: HttpRequest) => {
   const result = await Discription.findAll({ order: [["createdAt", "DESC"]] });
-
   return funcSuccess(context, {
     discription: result.map((data) => data.toJSON()),
   });
@@ -31,7 +30,6 @@ const get = async (context: Context, req: HttpRequest) => {
 
 const create = async (context: Context, req: HttpRequest) => {
   if (context?.bindingData?.action === "search") {
-    console.log("abc", context?.bindingData?.action, req.body.input);
     const result = await Discription.findAll({
       where: Sequelize.where(
         Sequelize.fn(
@@ -54,6 +52,7 @@ const create = async (context: Context, req: HttpRequest) => {
       discription: result.map((data) => data.toJSON()),
     });
   }
+
   const userPayload = await validateJWTUserSign(context, req); // check if wallet is signed in
   if (!userPayload || !userPayload?.username) return userPayload;
 

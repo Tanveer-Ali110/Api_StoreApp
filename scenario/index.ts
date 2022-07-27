@@ -1,7 +1,7 @@
 import { AzureFunction, Context, HttpRequest } from "@azure/functions";
 import { read } from "fs";
 import * as uuid from "uuid";
-import { func500Error } from "../src/utils";
+import { func500Error, funcSuccess } from "../src/utils";
 import { Discription, Scenario } from "../storage/models";
 import { initSequelize } from "../storage/tables";
 
@@ -20,28 +20,13 @@ const httpTrigger: AzureFunction = async function (
 };
 
 const get = async (context: Context, req: HttpRequest) => {
-  console.log("Test");
-  Scenario.findAll({
+  const result = await Scenario.findAll({
     include: [{ model: Discription, required: false }],
-  })
-    .then((result) => {
-      console.log("result", JSON.stringify(result, null, 2));
-    })
-    .catch((err) => {
-      console.log("err", err);
-    });
+  });
 
-  // const result1 = result.map((id)=>id.toJSON())
-  // const test = result1.forEach(async (data) => {
-  //   const abc = await Discription.findByPk(data.description_id)
-  //   const xyz = abc.toJSON()
-  //   // console.log(xyz)
-  //   return({
-  //     description_id:`${xyz.pre} ${xyz.verb} ${xyz.first_line}`
-  //   }
-  //   )
-  // });
-  // console.log(result1);
+  return funcSuccess(context, {
+    scenario: result.map((s) => s.toJSON()),
+  });
 };
 
 const create = async (context: Context, req: HttpRequest) => {
@@ -52,7 +37,7 @@ const create = async (context: Context, req: HttpRequest) => {
     sq1_state: sq1State,
     sq2_state: sq2State,
   });
-  console.log(result);
+  console.log(JSON.stringify(result));
 };
 
 export default httpTrigger;
