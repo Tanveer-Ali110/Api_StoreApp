@@ -20,9 +20,16 @@ const httpTrigger: AzureFunction = async function (
 };
 
 const get = async (context: Context, req: HttpRequest) => {
-  const result = await Scenario.findAll({include:[Discription]});
-  console.log("Test")
-  console.log("result",result)
+  console.log("Test");
+  Scenario.findAll({
+    include: [{ model: Discription, required: false }],
+  })
+    .then((result) => {
+      console.log("result", JSON.stringify(result, null, 2));
+    })
+    .catch((err) => {
+      console.log("err", err);
+    });
 
   // const result1 = result.map((id)=>id.toJSON())
   // const test = result1.forEach(async (data) => {

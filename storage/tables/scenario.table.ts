@@ -32,5 +32,5 @@ export const initScenarioModel = (sequelize: Sequelize) => {
       timestamps: true,
     }
   );
-  Scenario.belongsTo(Discription, { foreignKey: "description_id" });
+  Scenario.belongsTo(Discription,{foreignKey : 'description_id'});
 };

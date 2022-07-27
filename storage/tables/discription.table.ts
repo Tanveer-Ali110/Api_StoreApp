@@ -20,9 +20,9 @@ export const initDiscriptionModel = (sequelize: Sequelize) => {
       }),
     },
     {
-      tableName: "Discriptions",
+      tableName: "Discription",
       sequelize,
       timestamps: true,
-    });
-    // Discription.hasOne(Scenario,{as: 'description_id', foreignKey : 'description_id' })
+    }
+  );
 };
