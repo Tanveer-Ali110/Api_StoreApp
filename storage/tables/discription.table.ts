@@ -1,6 +1,6 @@
 import { Sequelize } from "sequelize";
 import * as defaulTypes from "./defaultTypes";
-import { Discription } from "../models";
+import { Discription, Scenario } from "../models";
 
 export const initDiscriptionModel = (sequelize: Sequelize) => {
   Discription.init(
@@ -23,6 +23,6 @@ export const initDiscriptionModel = (sequelize: Sequelize) => {
       tableName: "Discriptions",
       sequelize,
       timestamps: true,
-    }
-  );
+    });
+    // Discription.hasOne(Scenario,{as: 'description_id', foreignKey : 'description_id' })
 };

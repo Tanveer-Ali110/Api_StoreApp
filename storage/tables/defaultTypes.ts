@@ -44,7 +44,7 @@ export const enums = (allowNull = false, values:string[],attributes?: Partial<Mo
   return {
     allowNull,
     type: ENUM,
-    value:values,
+    values:values,
     ...attributes,
   }
 }

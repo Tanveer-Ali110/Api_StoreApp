@@ -56,6 +56,7 @@ const create = async (context: Context, req: HttpRequest): Promise<any> => {
     const accessToken = await createUserAccessToken(user);
     return funcSuccess(context, { user: user.toJSON(), accessToken });
   } catch (err) {
+    console.log(err)
     return funcValidationError(context, err);
   }
 };
