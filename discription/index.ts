@@ -7,13 +7,13 @@ import { func500Error, funcSuccess, funcValidationError } from "../src/utils";
 import validateJWTUserSign from "../src/utils/validates";
 import { Op, Sequelize } from "sequelize";
 
+
 const httpTrigger: AzureFunction = async function (
   context: Context,
   req: HttpRequest
 ): Promise<void> {
   try {
-    await initSequelize();
-
+    // await initSequelize();
     if (req.method === "GET") await get(context, req);
     else if (req.method === "POST") await create(context, req);
   } catch (err) {
@@ -23,9 +23,20 @@ const httpTrigger: AzureFunction = async function (
 
 const get = async (context: Context, req: HttpRequest) => {
   const result = await Discription.findAll({ order: [["createdAt", "DESC"]] });
-  return funcSuccess(context, {
-    discription: result.map((data) => data.toJSON()),
-  });
+  console.log("result1")
+
+  // return context.res = {
+  //   status: 200,
+  //   body:result.map((data) => data.toJSON()),
+  // };
+  return context.res = {
+    // status: 200,
+    body:"result.map((data) => data.toJSON())",
+  };
+
+  // return funcSuccess(context, {
+  //   discription: result.map((data) => data.toJSON()),
+  // });
 };
 
 const create = async (context: Context, req: HttpRequest) => {
