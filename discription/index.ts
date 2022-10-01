@@ -13,17 +13,20 @@ const httpTrigger: AzureFunction = async function (
   req: HttpRequest
 ): Promise<void> {
   try {
-    // await initSequelize();
+    await initSequelize();
+    console.log('test')
     if (req.method === "GET") await get(context, req);
     else if (req.method === "POST") await create(context, req);
   } catch (err) {
+    console.log(err)
     func500Error(context);
   }
 };
 
 const get = async (context: Context, req: HttpRequest) => {
-  const result = await Discription.findAll({ order: [["createdAt", "DESC"]] });
-  console.log("result1")
+  console.log('qwer')
+  // const result = await Discription.findAll({ order: [["createdAt", "DESC"]] });
+  console.log("result112")
 
   // return context.res = {
   //   status: 200,

@@ -7,10 +7,11 @@
     "watch": "tsc -w",
     "prestart": "npm run build",
     "start": "func start",
-    "clean":"rmdir /s /q node_modules && rmdir /s /q dist",
+    "clean": "rmdir /s /q node_modules && rmdir /s /q dist && rmdir /s /q package-lock.json",
     "test": "echo \"No tests yet...\""
   },
   "dependencies": {
+    "azure-functions-core-tools": "^4.0.4670",
     "bcrypt": "^5.0.1",
     "bcryptjs": "^2.4.3",
     "jsonwebtoken": "^8.5.1",

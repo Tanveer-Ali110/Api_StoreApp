@@ -7,10 +7,8 @@ export const authSettings = {
 }
 
 export const storageSettings = {
-  database: process.env.DATABASE,
-  username: process.env.USER,
-  password: process.env.PASSWORD,
-  host: process.env.HOST,
+  database: "test",
+  username: "root",
+  password: "root",
+  host: "localhost",
 };
-
-
